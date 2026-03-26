@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import morgan from 'morgan'
-import errorMiddleware from './middleware/error.middleware'
+import errorMiddleware from './middleware/error.middleware.js'
+
 
 dotenv.config();
 
@@ -18,7 +19,7 @@ app.get("/", (_, res) => {
     res.send("API running");
 });
 
-import authRoutes from './routes/auth.routes';
+import authRoutes from './routes/auth.routes.js'
 
 app.use("/api/auth", authRoutes);
 

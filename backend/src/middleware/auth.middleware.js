@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
-import { ApiError } from '../utils/api-error';
-import User from '../models/user.model';
+import { ApiError } from '../utils/api-error.js';
+import User from '../models/user.model.js';
 
 export const protect = asyncHandler(async (req, res, next) => {
     const headers = req.headers?.authorization.startsWith("Bearer")
