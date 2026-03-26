@@ -1,7 +1,7 @@
 export class ApiError extends Error {
 
     constructor(
-        statusCode,
+        statusCode = 500,
         message,
         errors,
         stack,
