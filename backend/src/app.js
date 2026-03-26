@@ -20,7 +20,9 @@ app.get("/", (_, res) => {
 });
 
 import authRoutes from './routes/auth.routes.js'
+import postRoutes from './routes/post.routes.js'
 
 app.use("/api/auth", authRoutes);
+app.use("/api/posts", postRoutes);
 
 export default app;
