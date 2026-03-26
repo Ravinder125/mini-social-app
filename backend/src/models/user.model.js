@@ -30,7 +30,7 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
     if (!enteredPassword) throw new Error("Entered password is required")
-    const isMatch = await bcrypt.compare(enteredPassword, hash)
+    const isMatch = await bcrypt.compare(enteredPassword, this.password)
     return isMatch
 }
 
