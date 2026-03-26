@@ -18,4 +18,8 @@ app.get("/", (_, res) => {
     res.send("API running");
 });
 
+import authRoutes from './routes/auth.routes';
+
+app.use("/api/auth", authRoutes);
+
 export default app;
