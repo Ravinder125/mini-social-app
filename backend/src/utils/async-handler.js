@@ -3,7 +3,7 @@ export const asyncHandler = (fn) => async (req, res, next) => {
         await fn(req, res, next)
     } catch (error) {
         const message = error.message ?? "Internal Server Error"
-        const code = error.status ?? 500
+        const code = error.statusCode ?? 500
         res.status(code).json({
             success: false,
             message: message,
