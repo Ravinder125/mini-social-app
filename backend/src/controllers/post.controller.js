@@ -3,12 +3,13 @@ import { asyncHandler } from "../utils/async-handler.js";
 import { ApiResponse } from "../utils/api-response.js";
 import { ApiError } from "../utils/api-error.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { isValidObjectId } from "mongoose";
 
 export const createPost = asyncHandler(async (req, res) => {
     const userId = req.user?._id
     const { text } = req.body;
     const file = req.file;
-    
+
     if (!text && !file) {
         throw new ApiError(400, "Post must contain text or image")
     }
@@ -41,7 +42,23 @@ export const createPost = asyncHandler(async (req, res) => {
 });
 
 export const getFeed = asyncHandler(async (req, res) => {
+    const posts = await Post.find()
+        .populate("author", "name email")
+        .sort({ createdAt: -1 });
 
+    const formattedPosts = posts.map(post => ({
+        _id: post._id,
+        text: posts.text,
+        image: post.image?.url,
+        author: post.author,
+        likesCount: post.likes?.length ?? 0,
+        commentsCount: post.comments?.length ?? 0,
+        createdAt: post.createdAt
+    }))
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, formattedPosts, "Post Feed successfully fetched"))
 });
 
 export const likePost = asyncHandler(async (req, res) => {
