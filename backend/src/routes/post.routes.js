@@ -7,11 +7,12 @@ import {
     addComment
 } from "../controllers/post.controller.js";
 
-import protect from "../middleware/auth.middleware.js";
+import { protect } from "../middleware/auth.middleware.js";
+import { upload } from "../middleware/multer.middleware.js";
 
 const router = express.Router();
 
-router.post("/", protect, createPost);
+router.post("/", protect, upload.single("image"), createPost);
 
 router.get("/", getFeed);
 
