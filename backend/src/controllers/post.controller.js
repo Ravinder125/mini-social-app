@@ -1,9 +1,9 @@
 import Post from "../models/post.model.js";
-import { asyncHandler } from "../utils/async-handler.js";
-import { ApiResponse } from "../utils/api-response.js";
 import { ApiError } from "../utils/api-error.js";
+import { ApiResponse } from "../utils/api-response.js";
+import { asyncHandler } from "../utils/async-handler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
-import { isValidObjectId } from "mongoose";
+import { validateObjectId } from "../utils/validate-object-id.js";
 
 export const createPost = asyncHandler(async (req, res) => {
     const userId = req.user?._id
@@ -66,7 +66,7 @@ export const likePost = asyncHandler(async (req, res) => {
     const postId = req.params.id;
     const userId = req.user?._id
 
-    if (!isValidObjectId(postId)) throw new ApiError(400, "Invalid Post ID");
+    validateObjectId(postId)
 
     const post = await Post.findById(postId)
 
@@ -100,6 +100,9 @@ export const likePost = asyncHandler(async (req, res) => {
 
 export const addComment = asyncHandler(async (req, res) => {
     const postId = req.params.id;
+
+    validateObjectId(postId)
+
     const { text } = req.body;
 
     if (!text) throw new ApiError(400, "Comment text required");
