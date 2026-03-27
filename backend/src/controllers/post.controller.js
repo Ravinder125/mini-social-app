@@ -99,5 +99,32 @@ export const likePost = asyncHandler(async (req, res) => {
 });
 
 export const addComment = asyncHandler(async (req, res) => {
+    const postId = req.params.id;
+    const { text } = req.body;
 
+    if (!text) throw new ApiError(400, "Comment text required");
+
+
+    const post = await Post.findById(postId);
+    if (!post) throw new ApiError(404, "Post not found");
+
+
+    const comment = {
+        user: req.user._id,
+        text: text
+    };
+
+    post.comments.push(comment);
+    await post.save();
+
+    return res
+        .status(201)
+        .json(new ApiResponse(
+            201,
+            {
+                commentsCount: post.comments.length
+            },
+            "Comment added"
+        )
+        );
 });
