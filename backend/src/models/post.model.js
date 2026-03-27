@@ -29,11 +29,11 @@ const postSchema = new mongoose.Schema({
     },
 
     image: {
-        imageUrl: {
+        url: {
             type: String,
             trim: true
         },
-        publicUrl: {
+        public_id: {
             type: String,
             trim: true
         }
