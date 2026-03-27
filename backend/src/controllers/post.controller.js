@@ -63,7 +63,7 @@ export const getFeed = asyncHandler(async (req, res) => {
 
 export const likePost = asyncHandler(async (req, res) => {
 
-    const { postId } = req.params.id;
+    const postId = req.params.id;
     const userId = req.user?._id
 
     if (!isValidObjectId(postId)) throw new ApiError(400, "Invalid Post ID");
@@ -72,12 +72,11 @@ export const likePost = asyncHandler(async (req, res) => {
 
     if (!post) throw new ApiError(404, "No post found");
 
-    const alreadyLiked = post.likes.indexOf(userId);
-
-    if (alreadyLiked !== -1) {
+    const alreadyLiked = post.likes.includes(userId);
+    if (alreadyLiked) {
         post.likes = post.likes
             .filter(
-                l => l.toString() === userId.toString()
+                l => l.toString() !== userId.toString()
             )
     } else {
         post.likes.push(userId)
@@ -93,7 +92,7 @@ export const likePost = asyncHandler(async (req, res) => {
                 likesCount: post.likes?.length ?? 0,
                 liked: !alreadyLiked
             },
-            alreadyLiked
+            !alreadyLiked
                 ? "Post liked"
                 : "Post unliked"
         ))
