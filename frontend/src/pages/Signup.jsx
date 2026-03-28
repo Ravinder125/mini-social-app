@@ -45,53 +45,54 @@ function Signup() {
     };
 
     return (
+        <div className="container">
+            <div className="card">
+                <h2>Signup</h2>
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        placeholder="Name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
 
-        <div>
-            <h2>Signup</h2>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
 
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
 
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+                    <button type="submit">
 
-                <button type="submit">
+                        Signup
 
-                    Signup
+                    </button>
 
-                </button>
+                </form>
 
-            </form>
+                {error && <p>{error}</p>}
 
-            {error && <p>{error}</p>}
+                <p>
 
-            <p>
+                    Already have account?
 
-                Already have account?
+                    <Link to="/">
 
-                <Link to="/">
+                        Login
 
-                    Login
+                    </Link>
 
-                </Link>
+                </p>
 
-            </p>
-
+            </div>
         </div>
 
     );
