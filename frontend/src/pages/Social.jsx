@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import API from "../api/axios";
 import PostCard from "../components/PostCard";
 import CreatePost from "../components/CreatePost";
+import Navbar from '../components/layout/Navbar'
 
 function Social() {
 
