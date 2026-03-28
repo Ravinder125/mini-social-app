@@ -37,10 +37,10 @@ function Social() {
         );
 
     }
-    
+
     return (
 
-        <div>
+        <div className="container">
             <h2>Social Feed</h2>
             <CreatePost refresh={fetchPosts} />
             {
