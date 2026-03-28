@@ -33,16 +33,15 @@ function PostCard({ post }) {
 
     return (
         <div
-            style={{
-                border: "1px solid gray",
-                padding: "10px",
-                margin: "10px"
-            }}
+            className="card"
         >
-
             <h4>
 
                 {post.author.name}
+
+                <small>
+                    {new Date(post.createdAt).toLocaleDateString()}
+                </small>
 
             </h4>
 
@@ -57,7 +56,11 @@ function PostCard({ post }) {
                     <img
                         src={post.image}
                         alt=""
-                        width="200"
+                        style={{
+                            width: "100%",
+                            borderRadius: "5px",
+                            marginTop: "10px",
+                        }}
                     />
 
                 )
@@ -68,13 +71,22 @@ function PostCard({ post }) {
                 {liked ? "Unlike" : "Like"}
             </button>
 
-            <p>
-                Likes: {likes}
-            </p>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: "10px"
+                }}
+            >
 
-            <p>
-                Comments: {commentsCount}
-            </p>
+                <span>
+                    Likes: {likes}
+                </span>
+                <span>
+                    Comments: {commentsCount}
+                </span>
+
+            </div>
 
             <CommentBox postId={post._id} refreshComments={refreshComments} />
 
