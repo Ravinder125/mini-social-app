@@ -10,13 +10,18 @@ function CreatePost({ refresh }) {
         if (!text && !image) {
             return;
         }
+        const formData = new FormData()
+        formData.append("text", text)
+        formData.append("image", image)
 
         try {
             await API.post(
                 "/posts",
+                formData,
                 {
-                    text,
-                    image
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
                 }
             );
 
@@ -45,9 +50,14 @@ function CreatePost({ refresh }) {
 
                 <input
                     type="file"
+                    name="image"
                     placeholder="Image URL (optional)"
-                    value={image}
-                    onChange={(e) => setImage(e.target.files?.[0])}
+                    onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) {
+                            setImage(file)
+                        }
+                    }}
                 />
 
                 <button type="submit">
