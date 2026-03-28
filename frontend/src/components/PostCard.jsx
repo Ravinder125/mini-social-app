@@ -1,10 +1,11 @@
 import { useState } from "react";
-
+import CommentBox from './CommentBox'
 import API from "../api/axios";
 
 function PostCard({ post }) {
     const [likes, setLikes] = useState(post.likesCount);
     const [liked, setLiked] = useState(false);
+    const [commentsCount, setCommentsCount] = useState(post.commentsCount)
 
     const handleLike = async () => {
         try {
@@ -19,6 +20,16 @@ function PostCard({ post }) {
         }
 
     };
+
+    const refreshComments = async () => {
+        try {
+            const res = await API.get("/posts");
+            const updated = res.data.data.find(p => p._id = post._id);
+            setCommentsCount(updated.commentsCount)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <div
@@ -54,22 +65,18 @@ function PostCard({ post }) {
             }
 
             <button onClick={handleLike}>
-
                 {liked ? "Unlike" : "Like"}
-
             </button>
 
             <p>
-
                 Likes: {likes}
-
             </p>
 
             <p>
-
-                Comments: {post.commentsCount}
-
+                Comments: {commentsCount}
             </p>
+
+            <CommentBox postId={post._id} refreshComments={refreshComments} />
 
         </div>
 
