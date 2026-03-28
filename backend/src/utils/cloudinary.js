@@ -2,7 +2,8 @@ import {
     v2 as cloudinary,
 } from 'cloudinary';
 import { fileCleanup } from './file-cleanup.js';
-
+import dotenv from 'dotenv'
+dotenv.config()
 
 
 // Configuration 
