@@ -40,48 +40,49 @@ function Login() {
 
     return (
 
-        <div>
+        <div className="container">
+            <div className="card">
+                <h2>Login</h2>
 
-            <h2>Login</h2>
+                <form onSubmit={handleSubmit}>
 
-            <form onSubmit={handleSubmit}>
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
 
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
 
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+                    <button type="submit">
 
-                <button type="submit">
+                        Login
 
-                    Login
+                    </button>
 
-                </button>
+                </form>
 
-            </form>
+                {error && <p>{error}</p>}
 
-            {error && <p>{error}</p>}
+                <p>
 
-            <p>
+                    No account?
 
-                No account?
+                    <Link to="/signup">
 
-                <Link to="/signup">
+                        Signup
 
-                    Signup
+                    </Link>
 
-                </Link>
+                </p>
 
-            </p>
-
+            </div >
         </div>
 
     );
