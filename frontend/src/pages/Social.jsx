@@ -27,7 +27,17 @@ function Social() {
     }, []);
 
     if (loading) return <h3>Loading...</h3>
+    if (posts.length === 0) {
+        return (
+            <div>
+                <Navbar />
+                <h3>No posts yet</h3>
+                <CreatePost refresh={fetchPosts} />
+            </div>
+        );
 
+    }
+    
     return (
 
         <div>
