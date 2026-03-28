@@ -11,6 +11,8 @@ API.interceptors.request.use((req) => {
         const token = JSON.parse(user).token;
         req.headers.Authorization = `Bearer ${token}`
     }
+    
+    return req
 })
 
 export default API
