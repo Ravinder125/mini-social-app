@@ -46,6 +46,7 @@ body {
 
 a {
   text-decoration: none;
+  color: black;
 }
 
 input {
@@ -145,4 +146,38 @@ button.like-btn {
 
 .delete-btn:hover>button {
   background-color: rgb(224, 26, 26);
+}
+
+.auth-layout {
+  max-width: 400px;
+  margin-inline: auto;
+}
+
+.auth-layout>h2 {
+  margin-bottom: 1rem;
+}
+
+.auth-layout>form {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.auth-layout>form>button {
+  margin-top: 1rem;
+  width: fit-content;
+}
+
+.auth-layout>p {
+  font-size: 13px;
+}
+
+.auth-layout>p>a {
+  text-decoration: underline;
+}
+
+.form-error {
+  color: rgb(255, 48, 48);
+  font-size: 13px;
+  align-self: flex-start;
 }
