@@ -3,6 +3,9 @@
 A full stack social media post application where users can signup,
 login, create posts, like posts and comment on posts.
 
+Frontend: https://mini-social-app-blue.vercel.app/  
+Backend API: (https://mini-social-app-8pac.onrender.com)
+
 ## Tech Stack
 
 ### Frontend:
