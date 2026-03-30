@@ -175,3 +175,32 @@ export const getPost = asyncHandler(async (req, res) => {
         .status(200)
         .json(new ApiResponse(200, formattedPost, "Post successfully fetched"))
 })
+
+export const deleteComment = asyncHandler(async (req, res) => {
+    const userId = req.user?._id;
+    const commentId = req.params.commentId;
+    const postId = req.params.postId;
+
+    validateObjectId(commentId);
+    validateObjectId(postId);
+
+    const post = await Post.findById(postId);
+    if (!post) throw new ApiError(404, "No Post found");
+
+    const commentIndex = post.comments.findIndex(
+        c =>
+            c._id.toString() === commentId &&
+            c.user._id.toString() === userId.toString()
+    )
+
+
+    if (commentIndex === -1) throw new ApiError(401, "Unauthorized request");
+
+    post.comments.splice(commentIndex, 1);
+    await post.save();
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Comment successfully deleted"))
+
+})
