@@ -14,7 +14,6 @@ const PostDetails = () => {
         try {
             const res = await API.get(`/posts/${id}`);
             setPost(res.data.data);
-            console.log(res.data)
         }
         catch (error) {
             console.log(error);
