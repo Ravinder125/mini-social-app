@@ -38,7 +38,7 @@ function CreatePost({ refresh }) {
 
     return (
 
-        <div>
+        <div className="card">
             <h3>Create Post</h3>
             <form onSubmit={handleSubmit}>
                 <input
