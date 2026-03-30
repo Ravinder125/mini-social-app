@@ -42,9 +42,18 @@ export const createPost = asyncHandler(async (req, res) => {
 });
 
 export const getFeed = asyncHandler(async (req, res) => {
+
+    const page = Math.ceil(Number(req.query?.page)) || 1;
+    const limit = Math.ceil(Number(req.query?.page)) || 5;
+
+    const skip = (page - 1) * limit;
+    const total = await Post.countDocuments();
+
     const posts = await Post.find()
         .populate("author", "name email")
-        .sort({ createdAt: -1 });
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
 
     const formattedPosts = posts.map(post => {
         const isLiked = post.likes.includes(req.user?.id)
@@ -60,9 +69,15 @@ export const getFeed = asyncHandler(async (req, res) => {
         }
     })
 
+    const responseData = {
+        posts: formattedPosts,
+        page: page,
+        totalPages: Math.ceil(total / limit)
+    }
+
     return res
         .status(200)
-        .json(new ApiResponse(200, formattedPosts, "Post Feed successfully fetched"))
+        .json(new ApiResponse(200, responseData, "Post Feed successfully fetched"))
 });
 
 export const likePost = asyncHandler(async (req, res) => {
