@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import API from "../api/axios";
+import { useAuth } from "../context/AuthContext";
 
 function Signup() {
 
@@ -31,7 +32,7 @@ function Signup() {
 
             login(res.data.data);
 
-            navigate("/social");
+            navigate("/");
 
         }
         catch (err) {
