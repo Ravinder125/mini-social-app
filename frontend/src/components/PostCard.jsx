@@ -1,5 +1,4 @@
 import { useState } from "react";
-import CommentBox from './CommentBox'
 import API from "../api/axios";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { MdComment } from "react-icons/md";
@@ -9,6 +8,7 @@ import { Link } from 'react-router-dom'
 function PostCard({ post }) {
     const [likes, setLikes] = useState(post.likesCount);
     const [isLiked, setIsLiked] = useState(post.isLiked);
+    const [loadingLike, setLoadingLiked] = useState(false)
     const [commentsCount, setCommentsCount] = useState(post.commentsCount)
 
     const handleLike = async () => {
@@ -25,6 +25,7 @@ function PostCard({ post }) {
         )
 
         try {
+            setLoadingLiked(true)
             const res = await API.put(
                 `/posts/${post._id}/like`
             );
@@ -35,6 +36,8 @@ function PostCard({ post }) {
             setLikes(previousLikes)
             setIsLiked(previousIsLiked)
             console.log(error);
+        } finally {
+            setLoadingLiked(false)
         }
 
     };
@@ -92,6 +95,7 @@ function PostCard({ post }) {
                 <button
                     className="svg-btn like-btn"
                     onClick={handleLike}
+                    disabled={loadingLike}
                 >
                     {
                         isLiked
