@@ -27,6 +27,15 @@ function Social() {
         }
     };
 
+    const deletePost = async (id) => {
+        try {
+            await API.delete(`/posts/${id}`)
+            await fetchPosts()
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         fetchPosts();
     }, [page]);
@@ -57,6 +66,7 @@ function Social() {
                     <PostCard
                         key={post._id}
                         post={post}
+                        onDelete={deletePost}
                     />
                 ))
             }
