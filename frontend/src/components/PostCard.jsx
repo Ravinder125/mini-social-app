@@ -12,6 +12,18 @@ function PostCard({ post }) {
     const [commentsCount, setCommentsCount] = useState(post.commentsCount)
 
     const handleLike = async () => {
+        const previousIsLiked = isLiked;
+        const previousLikes = likes;
+
+        const newLiked = !isLiked;
+        setIsLiked(newLiked);
+
+        setLikes(
+            newLiked
+                ? likes + 1
+                : likes - 1
+        )
+
         try {
             const res = await API.put(
                 `/posts/${post._id}/like`
@@ -20,6 +32,8 @@ function PostCard({ post }) {
             setIsLiked(res.data.data.liked);
         }
         catch (error) {
+            setLikes(previousLikes)
+            setIsLiked(previousIsLiked)
             console.log(error);
         }
 
