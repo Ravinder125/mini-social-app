@@ -36,7 +36,12 @@ function CommentBox({ postId, refreshComments }) {
                 onChange={(e) => setText(e.target.value)}
             />
 
-            <button type="submit">
+            <button
+                style={{
+                    marginTop: "8px",
+                }}
+                type="submit"
+            >
                 Comment
             </button>
 
