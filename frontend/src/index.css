@@ -138,8 +138,8 @@ button.like-btn {
 }
 
 .delete-btn>button {
-  background-color: rgb(247, 1, 1);
-  color: rgb(255, 199, 199);
+  background-color: rgb(255, 63, 63);
+  color: rgb(248, 223, 223);
   border: 1px solid rgb(196, 1, 1);
 }
 
