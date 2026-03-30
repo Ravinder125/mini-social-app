@@ -4,6 +4,7 @@ import API from "../api/axios";
 function CreatePost({ refresh }) {
     const [text, setText] = useState("");
     const [image, setImage] = useState("");
+    const [loading, setLoading] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -15,6 +16,7 @@ function CreatePost({ refresh }) {
         formData.append("image", image)
 
         try {
+            setLoading(true)
             await API.post(
                 "/posts",
                 formData,
@@ -32,6 +34,8 @@ function CreatePost({ refresh }) {
         }
         catch (error) {
             console.log(error);
+        } finally {
+            setLoading(false)
         }
 
     };
@@ -60,10 +64,11 @@ function CreatePost({ refresh }) {
                     }}
                 />
 
-                <button type="submit">
-
-                    Post
-
+                <button
+                    disabled={loading}
+                    type="submit"
+                >
+                    {loading ? "Posting..." : "Post"}
                 </button>
 
             </form>
