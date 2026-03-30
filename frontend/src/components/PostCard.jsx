@@ -3,9 +3,10 @@ import API from "../api/axios";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { MdComment } from "react-icons/md";
 import { Link } from 'react-router-dom'
+import DeleteBtn from "./DeleteBtn";
 
 
-function PostCard({ post }) {
+function PostCard({ post, onDelete }) {
     const [likes, setLikes] = useState(post.likesCount);
     const [isLiked, setIsLiked] = useState(post.isLiked);
     const [loadingLike, setLoadingLiked] = useState(false)
@@ -41,16 +42,6 @@ function PostCard({ post }) {
         }
 
     };
-
-    const refreshComments = async () => {
-        try {
-            const res = await API.get("/posts");
-            const updated = res.data.data.find(p => p._id = post._id);
-            setCommentsCount(updated.commentsCount)
-        } catch (error) {
-            console.log(error)
-        }
-    }
 
     return (
         <div
@@ -118,6 +109,11 @@ function PostCard({ post }) {
                         <MdComment /> {commentsCount}
                     </Link>
                 </button>
+                {
+                    post.canDelete && (
+                        <DeleteBtn id={post._id} onClick={(id) => onDelete(id)} />
+                    )
+                }
             </div>
 
 
