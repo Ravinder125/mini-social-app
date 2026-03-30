@@ -1,10 +1,14 @@
 import { useState } from "react";
 import CommentBox from './CommentBox'
 import API from "../api/axios";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { MdComment } from "react-icons/md";
+import { Link } from 'react-router-dom'
+
 
 function PostCard({ post }) {
     const [likes, setLikes] = useState(post.likesCount);
-    const [liked, setLiked] = useState(false);
+    const [isLiked, setIsLiked] = useState(post.isLiked);
     const [commentsCount, setCommentsCount] = useState(post.commentsCount)
 
     const handleLike = async () => {
@@ -13,7 +17,7 @@ function PostCard({ post }) {
                 `/posts/${post._id}/like`
             );
             setLikes(res.data.data.likesCount);
-            setLiked(res.data.data.liked);
+            setIsLiked(res.data.data.liked);
         }
         catch (error) {
             console.log(error);
@@ -35,21 +39,20 @@ function PostCard({ post }) {
         <div
             className="card"
         >
-            <h4>
-
-                {post.author.name}
-
+            <div className="card-header">
+                <h4>
+                    {post.author.name}
+                </h4>
                 <small>
                     {new Date(post.createdAt).toLocaleDateString()}
                 </small>
+            </div>
+            <div className="card-content">
+                <p>
+                    {post.text}
+                </p>
 
-            </h4>
-
-            <p>
-
-                {post.text}
-
-            </p>
+            </div>
 
             {
                 post.image && (
@@ -67,28 +70,38 @@ function PostCard({ post }) {
 
             }
 
-            <button onClick={handleLike}>
-                {liked ? "Unlike" : "Like"}
-            </button>
+            <div style={{
+                display: "flex",
+                marginTop: "20px",
+                gap: "20px"
+            }}>
+                <button
+                    className="svg-btn like-btn"
+                    onClick={handleLike}
+                >
+                    {
+                        isLiked
+                            ? <FaHeart style={{
+                                color: "pink",
+                                fill: "pink"
+                            }} />
+                            : <FaRegHeart />
+                    }
 
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginTop: "10px"
-                }}
-            >
-
-                <span>
-                    Likes: {likes}
-                </span>
-                <span>
-                    Comments: {commentsCount}
-                </span>
-
+                    <span style={{ color: isLiked && "pink" }}>
+                        {likes}
+                    </span>
+                </button>
+                <button className="svg-btn like-btn">
+                    <Link
+                        className="comment-link"
+                        to={`/posts/${post._id}`}
+                    >
+                        <MdComment /> {commentsCount}
+                    </Link>
+                </button>
             </div>
 
-            <CommentBox postId={post._id} refreshComments={refreshComments} />
 
         </div>
 
