@@ -63,8 +63,9 @@ export const getFeed = asyncHandler(async (req, res) => {
             image: post.image?.url,
             author: post.author,
             isLiked: isLiked,
-            likesCount: post.likes?.length ?? 0,
-            commentsCount: post.comments?.length ?? 0,
+            canDelete: post.author._id.toString() === req.user?._id.toString(),
+            likesCount: post.likes?.length || 0,
+            commentsCount: post.comments?.length || 0,
             createdAt: post.createdAt
         }
     })
@@ -156,14 +157,20 @@ export const getPost = asyncHandler(async (req, res) => {
     validateObjectId(postId);
 
     const post = await Post.findById(postId).populate("author comments.user", "email name")
-    const isLiked = post.likes.indexOf(req.user?._id) !== -1
     if (!post) throw new ApiError(404, "No product found")
+
+    const isLiked = post.likes.includes(req.user?._id)
+
+    const formattedComments = post.comments.map(comment => ({
+        ...comment._doc,
+        canDelete: comment.user._id.toString() === req.user?._id.toString()
+    }))
 
     const formattedPost = {
         _id: post._id,
         text: post.text,
         image: post.image?.url,
-        comments: post.comments,
+        comments: formattedComments,
         author: post.author,
         likesCount: post.likes?.length || 0,
         commentsCount: post.comments?.length || 0,
@@ -200,7 +207,23 @@ export const deleteComment = asyncHandler(async (req, res) => {
     await post.save();
 
     return res
-    .status(200)
-    .json(new ApiResponse(200, {}, "Comment successfully deleted"))
+        .status(200)
+        .json(new ApiResponse(200, {}, "Comment successfully deleted"))
 
+})
+
+export const deletePost = asyncHandler(async (req, res) => {
+    const postId = req.params.id;
+    validateObjectId(postId)
+
+    const post = await Post.findById(postId);
+    if (post.author.toString() !== req.user?._id.toString()) {
+        throw new ApiError(401, "Unauthorized access")
+    }
+
+    await Post.findByIdAndDelete(postId)
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, {}, "Post successfully deleted"))
 })
