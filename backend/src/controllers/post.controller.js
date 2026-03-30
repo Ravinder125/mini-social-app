@@ -44,7 +44,7 @@ export const createPost = asyncHandler(async (req, res) => {
 export const getFeed = asyncHandler(async (req, res) => {
 
     const page = Math.ceil(Number(req.query?.page)) || 1;
-    const limit = Math.ceil(Number(req.query?.page)) || 5;
+    const limit = Math.ceil(Number(req.query?.limit)) || 5;
 
     const skip = (page - 1) * limit;
     const total = await Post.countDocuments();
