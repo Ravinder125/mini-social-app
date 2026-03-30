@@ -13,13 +13,14 @@ function Signup() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
 
         e.preventDefault();
 
         try {
-
+            setLoading(true)
             const res = await API.post(
                 "/auth/signup",
                 {
@@ -41,13 +42,15 @@ function Signup() {
                 "Signup failed"
             );
 
+        } finally {
+            setLoading(false)
         }
 
     };
 
     return (
         <div className="container">
-            <div className="card">
+            <div className="card auth-layout">
                 <h2>Signup</h2>
                 <form onSubmit={handleSubmit}>
                     <input
@@ -71,15 +74,16 @@ function Signup() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
 
+                    {error && <p className="form-error">{error}</p>}
+
                     <button type="submit">
 
-                        Signup
+                        {loading ? "Loading..." : "Signup"}
 
                     </button>
 
                 </form>
 
-                {error && <p>{error}</p>}
 
                 <p>
 
