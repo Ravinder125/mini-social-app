@@ -3,6 +3,7 @@ import PostCard from "../components/PostCard"
 import { useEffect, useState } from "react";
 import API from "../api/axios";
 import CommentBox from "../components/CommentBox";
+import CommentCard from "../components/CommentCard";
 
 const PostDetails = () => {
     const params = useParams()
@@ -12,6 +13,7 @@ const PostDetails = () => {
 
     const fetchPostBYId = async () => {
         try {
+            setLoading(true)
             const res = await API.get(`/posts/${id}`);
             setPost(res.data.data);
         }
@@ -23,6 +25,16 @@ const PostDetails = () => {
         }
     };
 
+    const deleteComment = async (commentId) => {
+        try {
+            await API
+                .patch(`/posts/${id}/comment/${commentId}`)
+            await fetchPostBYId()
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         fetchPostBYId()
     }, [])
@@ -31,7 +43,6 @@ const PostDetails = () => {
     return (
         <div className="container">
             <PostCard post={post} />
-
 
             <div
                 style={{
@@ -43,16 +54,13 @@ const PostDetails = () => {
             </div>
             <div style={{ marginTop: "10px" }} className="card">
                 <CommentBox postId={post._id} refreshComments={fetchPostBYId} />
+
                 <div className="comments-list">
                     {post.comments?.map(comment => (
-                        <div className="comments-card">
-                            <div className="comments-card--header">
-                                <h4>{comment.user.name}</h4>
-                                <small>{(new Date(comment.createdAt).toLocaleDateString())}</small>
-                            </div>
-                            <h5>{comment.user.email}</h5>
-                            <p>{comment.text}</p>
-                        </div>
+                        <CommentCard
+                            comment={comment}
+                            onClick={() => deleteComment(comment._id)}
+                        />
                     ))}
                 </div>
             </div>
