@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const baseUrl = import.meta.env.VITE_BASE_URL
+
 const API = axios.create({
-    baseURL: "http://localhost:5000/api",
+    baseURL: baseUrl,
 })
 
 API.interceptors.request.use((req) => {
@@ -11,7 +13,7 @@ API.interceptors.request.use((req) => {
         const token = JSON.parse(user).token;
         req.headers.Authorization = `Bearer ${token}`
     }
-    
+
     return req
 })
 
