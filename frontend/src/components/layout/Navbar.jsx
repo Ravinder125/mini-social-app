@@ -17,7 +17,8 @@ function Navbar() {
                 display: "flex",
                 justifyContent: "space-between",
                 padding: "10px",
-                borderBottom: "1px solid gray"
+                borderBottom: "1px solid gray",
+                marginBottom: "20px"
             }}
         >
 
@@ -26,17 +27,17 @@ function Navbar() {
             </h3>
 
             <div>
-                <span>
-                    {user?.name}
-                </span>
-                <button
-                    onClick={handleLogout}
-                    style={{
-                        marginLeft: "10px"
-                    }}
-                >
-                    Logout
-                </button>
+                            <span>
+                                {user?.name}
+                            </span>
+                            <button
+                                onClick={handleLogout}
+                                style={{
+                                    marginLeft: "10px"
+                                }}
+                            >
+                                Logout
+                            </button>
 
             </div>
 
