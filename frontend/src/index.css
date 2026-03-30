@@ -58,7 +58,7 @@ input {
 }
 
 button:not(.svg-btn) {
-  background: #4a69bd;
+  background: rgb(28, 99, 253);
   color: white;
   border: none;
   padding: 8px 15px;
