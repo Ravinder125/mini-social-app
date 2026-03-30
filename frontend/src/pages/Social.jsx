@@ -3,9 +3,10 @@ import API from "../api/axios";
 import PostCard from "../components/PostCard";
 import CreatePost from "../components/CreatePost";
 import Navbar from '../components/layout/Navbar'
+import { useAuth } from "../context/AuthContext";
 
 function Social() {
-
+    const { user } = useAuth()
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -41,8 +42,11 @@ function Social() {
     return (
 
         <div className="container">
-            <h2>Social Feed</h2>
-            <CreatePost refresh={fetchPosts} />
+            <Navbar />
+            <h2 style={{ marginBottom: "20px" }}>Social Feed</h2>
+            {
+                user && <CreatePost refresh={fetchPosts} />
+            }
             {
                 posts.map(post => (
 
