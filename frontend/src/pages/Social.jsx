@@ -2,18 +2,22 @@ import { useEffect, useState } from "react";
 import API from "../api/axios";
 import PostCard from "../components/PostCard";
 import CreatePost from "../components/CreatePost";
-import Navbar from '../components/layout/Navbar'
-import { useAuth } from "../context/AuthContext";
+import Navbar from '../components/layout/Navbar';
+import CustomPagination from '../components/CustomPagination'
 
 function Social() {
-    const { user } = useAuth()
     const [posts, setPosts] = useState([]);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(true);
 
     const fetchPosts = async () => {
         try {
-            const res = await API.get("/posts");
-            setPosts(res.data.data);
+            const res = await API.get(`/posts?page=${page}&limit=5`);
+
+            setPosts(res.data.data.posts);
+            setPage(res.data.data.page);
+            setTotalPages(res.data.data.totalPages);
         }
         catch (error) {
             console.log(error);
@@ -25,9 +29,10 @@ function Social() {
 
     useEffect(() => {
         fetchPosts();
-    }, []);
+    }, [page]);
 
     if (loading) return <h3>Loading...</h3>
+
     if (posts.length === 0) {
         return (
             <div>
@@ -44,9 +49,8 @@ function Social() {
         <div className="container">
             <Navbar />
             <h2 style={{ marginBottom: "20px" }}>Social Feed</h2>
-            {
-                user && <CreatePost refresh={fetchPosts} />
-            }
+            <CreatePost refresh={fetchPosts} />
+
             {
                 posts.map(post => (
 
@@ -56,6 +60,8 @@ function Social() {
                     />
                 ))
             }
+
+            <CustomPagination page={page} setPage={(pageNum) => setPage(pageNum)} totalPages={totalPages} />
 
         </div>
 
