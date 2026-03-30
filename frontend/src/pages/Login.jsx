@@ -26,7 +26,7 @@ function Login() {
             );
 
             login(res.data.data);
-            navigate("/social");
+            navigate("/");
         }
         catch (err) {
             setError(
