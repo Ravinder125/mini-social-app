@@ -5,7 +5,9 @@ import {
     getFeed,
     likePost,
     addComment,
-    getPost
+    getPost,
+    deleteComment,
+    deletePost
 } from "../controllers/post.controller.js";
 
 import { protect } from "../middleware/auth.middleware.js";
@@ -19,8 +21,12 @@ router.get("/", protect, getFeed);
 
 router.get("/:id", protect, getPost);
 
+router.delete("/:id", protect, deletePost);
+
 router.put("/:id/like", protect, likePost);
 
 router.post("/:id/comment", protect, addComment);
+
+router.patch("/:postId/comment/:commentId", protect, deleteComment);
 
 export default router;
